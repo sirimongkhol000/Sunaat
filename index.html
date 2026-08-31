@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ครบรอบ 8 เดือน 💗</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: "Arial", "Tahoma", sans-serif;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(255,255,255,.9) 0 3px, transparent 4px),
+      radial-gradient(circle at 80% 30%, rgba(255,255,255,.8) 0 2px, transparent 3px),
+      linear-gradient(135deg, #ffdce7, #fff2f6 45%, #ffd5e2);
+    color: #8b465b;
+    overflow-x: hidden;
+  }
+
+  .stage {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px 14px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sparkle, .heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    animation: float 5s ease-in-out infinite;
+    opacity: .75;
+  }
+  .heart { font-size: 28px; }
+  .sparkle { font-size: 20px; animation-duration: 4s; }
+  .h1 { left: 8%; top: 14%; }
+  .h2 { right: 9%; top: 24%; animation-delay: 1s; }
+  .h3 { left: 15%; bottom: 15%; animation-delay: 2s; }
+  .s1 { right: 18%; bottom: 18%; animation-delay: .7s; }
+  .s2 { left: 25%; top: 8%; animation-delay: 1.5s; }
+
+  .envelope-wrap {
+    width: min(94vw, 430px);
+    perspective: 1200px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .envelope {
+    height: 285px;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+
+  .envelope-body {
+    position: absolute;
+    inset: 38px 0 0;
+    background: linear-gradient(145deg, #ffb7cb, #ffcfdd);
+    border-radius: 20px;
+    box-shadow: 0 22px 55px rgba(157,70,101,.22);
+    overflow: hidden;
+  }
+  .envelope-body:after {
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    border-left: 50% solid transparent;
+    border-right: 50% solid transparent;
+  }
+
+  .flap {
+    position: absolute;
+    top: 38px; left: 0; right: 0;
+    height: 170px;
+    background: linear-gradient(160deg, #ffd5e2, #ffadc4);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform 1s cubic-bezier(.2,.8,.2,1);
+    z-index: 5;
+    filter: drop-shadow(0 8px 10px rgba(125,55,80,.12));
+  }
+
+  .seal {
+    position: absolute;
+    left: 50%; top: 128px;
+    transform: translate(-50%, -50%);
+    width: 66px; height: 66px;
+    border-radius: 50%;
+    background: #ff7199;
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+    box-shadow: 0 8px 18px rgba(180,65,101,.25);
+    z-index: 7;
+    transition: .5s;
+  }
+
+  .hint {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 18px;
+    z-index: 8;
+    color: #8f4058;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .letter {
+    position: absolute;
+    left: 7%;
+    width: 86%;
+    top: 65px;
+    min-height: 470px;
+    background: rgba(255,255,255,.97);
+    border-radius: 24px;
+    padding: 24px 20px 28px;
+    box-shadow: 0 22px 60px rgba(126,59,84,.22);
+    opacity: 0;
+    transform: translateY(30px) scale(.92);
+    transition: opacity .7s .35s, transform .9s .25s;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .letter img {
+    width: 100%;
+    max-height: 290px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 18px;
+    display: block;
+    box-shadow: 0 8px 22px rgba(111,52,73,.13);
+    margin-bottom: 16px;
+  }
+
+  .title {
+    text-align: center;
+    color: #ef668c;
+    font-size: clamp(27px, 8vw, 38px);
+    margin: 4px 0 2px;
+    font-weight: 800;
+  }
+
+  .subtitle {
+    text-align: center;
+    margin: 0 0 16px;
+    color: #a6546e;
+    font-weight: 700;
+    font-size: 17px;
+  }
+
+  .message {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #754454;
+    text-align: left;
+    background: #fff5f8;
+    border-radius: 18px;
+    padding: 16px 17px;
+    border: 1px solid #ffd5e2;
+  }
+
+  .signature {
+    text-align: right;
+    margin-top: 15px;
+    color: #e35d82;
+    font-weight: 800;
+    font-size: 16px;
+  }
+
+  .music {
+    margin: 16px auto 0;
+    width: fit-content;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: #ffe1eb;
+    color: #a74763;
+    font-size: 13px;
+  }
+
+  .opened .flap {
+    transform: rotateX(180deg);
+    z-index: 0;
+  }
+  .opened .seal {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.5);
+  }
+  .opened .hint { opacity: 0; }
+  .opened .letter {
+    opacity: 1;
+    transform: translateY(70px) scale(1);
+    pointer-events: auto;
+    z-index: 10;
+  }
+  .opened.envelope {
+    height: 640px;
+  }
+
+  .replay {
+    margin-top: 18px;
+    border: 0;
+    border-radius: 999px;
+    padding: 11px 18px;
+    background: #ef7195;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(200,71,108,.22);
+  }
+
+  .footer-note {
+    text-align:center;
+    font-size:12px;
+    color:#b66c82;
+    margin-top: 12px;
+  }
+
+  .confetti {
+    position: fixed;
+    width: 9px;
+    height: 13px;
+    top: -20px;
+    z-index: 20;
+    pointer-events:none;
+    animation: fall 3.2s linear forwards;
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-18px) rotate(7deg); }
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+  }
+
+  @media (max-width: 480px) {
+    .letter { min-height: 500px; }
+    .opened.envelope { height: 700px; }
+    .message { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="heart h1">♡</div>
+  <div class="heart h2">♥</div>
+  <div class="heart h3">♡</div>
+  <div class="sparkle s1">✦</div>
+  <div class="sparkle s2">✧</div>
+
+  <div class="envelope-wrap">
+    <div class="envelope" id="envelope" onclick="openCard()">
+      <div class="envelope-body"></div>
+      <div class="flap"></div>
+      <div class="seal">♥</div>
+      <div class="hint">แตะเพื่อเปิดการ์ด 💌</div>
+
+      <section class="letter" id="letter">
+        <img src="photo.jpeg" alt="รูปของเราสองคน">
+        <div class="title">ครบรอบ 8 เดือน 💗</div>
+        <div class="subtitle">แฟนที่น่ารักที่สุดดด</div>
+
+        <div class="message">
+          เค้ารักเธอที่สุดในโลกเลยนะคะ<br>
+          ครบรอบ8เดือนนี้เค้าขอให้เรารักกันต่อไปเรื่อยๆเลยนะ<br>
+          เค้าดีใจทุกวันที่ตื่นมาแล้วมีเธอให้รัก<br>
+          ขอให้เธอสุขภาพแข็งแรงนะคะ<br>
+          ขอโทษเดือนที่ผ่านมาด้วยนะคะเค้าอาจจะทำไม่ดีบ้าง<br>
+          เค้าขอโทษนะคะที่รัก<br>
+          รักเธอนะคะคนสวยของเค้า 💕
+        </div>
+
+        <div class="signature">จาก.. คนที่รักแฟนที่สุด ❤️</div>
+        <div class="music">🎵 เพลงสำหรับเธอ — กดเปิดการ์ดเพื่อเริ่มเพลง</div>
+        <div style="text-align:center">
+          <button class="replay" onclick="event.stopPropagation(); replay()">เปิดการ์ดอีกครั้ง 💖</button>
+        </div>
+        <div class="footer-note">Made with love for our 8 months ✨</div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<iframe
+  id="yt"
+  width="1" height="1"
+  style="position:fixed;left:-10px;bottom:-10px;opacity:0;pointer-events:none"
+  title="music"
+  allow="autoplay; encrypted-media">
+</iframe>
+
+<script>
+const videoId = "rPZIiRQNXjk";
+const startTime = 69;
+let opened = false;
+
+function playMusic() {
+  const iframe = document.getElementById("yt");
+  iframe.src =
+    "https://www.youtube.com/embed/" + videoId +
+    "?start=" + startTime +
+    "&autoplay=1&loop=1&playlist=" + videoId +
+    "&controls=0&playsinline=1";
+}
+
+function openCard() {
+  if (opened) return;
+  opened = true;
+  const env = document.getElementById("envelope");
+  env.classList.add("opened");
+  playMusic();
+  confetti();
+}
+
+function replay() {
+  opened = false;
+  const env = document.getElementById("envelope");
+  env.classList.remove("opened");
+  setTimeout(() => {
+    env.classList.add("opened");
+    opened = true;
+    playMusic();
+    confetti();
+  }, 650);
+}
+
+function confetti() {
+  const chars = ["♥","♡","✦","✧","•"];
+  for (let i = 0; i < 28; i++) {
+    const el = document.createElement("div");
+    el.className = "confetti";
+    el.textContent = chars[Math.floor(Math.random()*chars.length)];
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.fontSize = (10 + Math.random()*16) + "px";
+    el.style.animationDelay = (Math.random()*.45) + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3800);
+  }
+}
+</script>
+</body>
+</html>
